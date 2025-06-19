@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recruiter Login | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background-color: #222;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #00bfff;
+        }
+
+        main {
+            min-height: 90vh;
+            background: url('images/recruiterlog.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 10px;
+            width: 380px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            color: #fff;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 10px;
+            background-color: #00bfff;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            background-color: #0099cc;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #00bfff;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #111;
+            color: #fff;
+        }
+
+        footer a {
+            color: #00bfff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#roles">Roles</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main>
+    <div class="login-container">
+        <h2>Recruiter Login</h2>
+        <form action="recruiter-login" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+        <div class="links">
+            <p><a href="recruiter_register.html">Don't have an account? Register</a></p>
+            <p><a href="#">Forgot Password?</a></p>
+            <p><a href="../index.html" style="font-weight:bold;">← Back to Home</a></p>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script to show error message -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const success = urlParams.get('success');
+    if (success) {
+        alert("✅ " + decodeURIComponent(success.replace(/\+/g, ' ')));
+    }
+
+    const error = urlParams.get('error');
+    if (error) {
+        const errorMessage = document.createElement('div');
+        errorMessage.style.color = 'red';
+        errorMessage.style.textAlign = 'center';
+        errorMessage.style.marginTop = '20px';
+        errorMessage.innerText = "❌ " + decodeURIComponent(error.replace(/\+/g, ' '));
+
+        const container = document.querySelector('.login-container');
+        const linksDiv = document.querySelector('.links');
+
+        if (container && linksDiv) {
+            container.insertBefore(errorMessage, linksDiv);
+        } else {
+            console.warn("Could not find .login-container or .links");
+        }
+    }
+});
+</script>
+
+</body>
+</html>

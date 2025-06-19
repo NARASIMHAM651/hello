@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Moderation | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .approve-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="#" class="active">Moderate Jobs</a>
+    </nav>
+    <a href="admin_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+    <h2>Pending Jobs for Approval</h2>
+
+    <div id="message" class="message"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="jobTable">
+            <!-- Jobs will appear here -->
+        </tbody>
+    </table>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- In job_moderation.html -->
+<script>
+    // Load pending jobs when page loads
+    fetch('/students/admin/fetch-jobs')
+        .then(res => res.json())
+        .then(jobs => {
+            const tbody = document.getElementById("jobTable");
+            if (jobs.length === 0) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = "<td colspan='4'>No pending jobs found</td>";
+                tbody.appendChild(tr);
+                return;
+            }
+
+            jobs.forEach(job => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${job.title}</td>
+                    <td>${job.company_name}</td>
+                    <td>${job.description.substring(0, 100)}...</td>
+                    <td>
+                        <button class="approve-btn" onclick="moderate(${job.job_id}, 'approved')">Approve</button>
+                        <button class="reject-btn" onclick="moderate(${job.job_id}, 'rejected')">Reject</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        });
+
+    function moderate(jobId, action) {
+        fetch(`/students/admin/approve-job?id=${jobId}&action=${action}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("✅ Job " + action + " successfully!");
+                    location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert("❌ Failed to moderate job");
+                }
+            })
+            .catch(err => {
+                console.error("Network error:", err);
+            });
+    }
+</script>
+</body>
+</html>

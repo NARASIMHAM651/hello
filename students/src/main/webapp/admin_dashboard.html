@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/student.css">
+
+    <style>
+        .dashboard {
+            position: relative;
+            padding: 40px;
+            text-align: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .card-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            z-index: 1;
+            position: relative;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2, h3 {
+            color: white;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Video background */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: -1;
+        }
+
+        #jobList {
+            margin-top: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        #jobList div {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+        }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="user_management.html">User Management</a>
+        <a href="job_moderation.html">Content Moderation</a>
+        <a href="analytics.html">System Analytics</a>
+    </nav>
+    <a href="../login/admin_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+
+    <!-- Background video -->
+    <video autoplay muted loop class="video-bg">
+        <source src="videos/admindash.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <h2>Welcome, <span id="adminName">[Admin]</span></h2>
+
+    <div class="card-grid">
+        <!-- User Management -->
+        <div class="card">
+            <h3>User Management</h3>
+            <p>View, block, or approve student and recruiter accounts.</p>
+            <a href="user_management.html" class="btn primary">Manage Users</a>
+        </div>
+
+        <!-- Job Moderation -->
+        <div class="card">
+            <h3>Job Moderation</h3>
+            <p>Moderate job/internship listings posted by recruiters.</p>
+            <a href="job_moderation.html" class="btn secondary">Moderate Jobs</a>
+        </div>
+
+        <!-- Analytics -->
+        <div class="card">
+            <h3>System Analytics</h3>
+            <p>Track portal usage, registrations, and application trends.</p>
+            <a href="analytics.html" class="btn primary">View Analytics</a>
+        </div>
+
+        <!-- Reports -->
+        <div class="card">
+            <h3>Generate Reports</h3>
+            <p>Create reports on user activity, job listings, and more.</p>
+            <a href="#" class="btn secondary">Generate Report</a>
+        </div>
+    </div>
+
+    <!-- Section: Pending Jobs -->
+    
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script -->
+<script>
+    // Show admin name dynamically
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    document.getElementById("adminName").innerText = name || '[Admin]';
+
+    // Load all pending jobs
+   </script>
+
+</body>
+</html>

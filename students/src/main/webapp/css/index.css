@@ -1,0 +1,280 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007BFF;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #ffc107;
+}
+
+nav a {
+  color: white;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  color: white;
+  padding: 0 20px;
+  text-align: center;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+  z-index: 0;
+}
+
+.hero-overlay {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.hero > h1,
+.hero .cta-buttons {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.cta-buttons .btn {
+  margin: 10px;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn.primary {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn.secondary {
+  background-color: #ffc107;
+  color: black;
+}
+
+/* Features Section */
+.features {
+  position: relative;
+  padding: 60px 20px;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+.video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px) brightness(0.6);
+}
+
+.video-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.features > *:not(.video-wrapper) {
+  position: relative;
+  z-index: 2;
+}
+
+.feature-cards {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  color: #000;
+  backdrop-filter: blur(4px);
+}
+
+/* Roles Section */
+.roles {
+  position: relative;
+  padding: 60px 20px;
+  text-align: center;
+  overflow: hidden;
+  background-color: #e9ecef;
+  color: #fff;
+}
+
+.video-wrapper-roles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#roles-bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.35);
+}
+
+.video-wrapper-roles::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.role-grid {
+  position: relative;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+/* Role Cards (UNCHANGED as requested) */
+.role-card {
+  background: rgba(0, 123, 255, 0.85);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-5px);
+}
+
+.role-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 20px 0;
+}
+
+.role-card li {
+  margin-bottom: 10px;
+}
+
+.role-card .btn.small {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #007BFF;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* Footer */
+#footer {
+  background-color: #343a40;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+}
+
+#footer a {
+  color: #ffc107;
+}
+
+/* Headings */
+h2 {
+  text-align: center;
+  margin-top: 3%;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recruiter Register | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            background: url('images/recruiterlog.jpg') no-repeat center center/cover;
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 10px;
+            width: 400px;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 10px;
+            background-color: #00bfff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            background-color: #0099cc;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #00bfff;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #111;
+            color: #fff;
+        }
+
+        footer a {
+            color: #00bfff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#roles">Roles</a>
+        <a href="#">Register</a>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main>
+    <div class="login-container">
+        <h2>Recruiter Registration</h2>
+        <form action="recruiter-register" method="POST">
+            <div class="form-group">
+                <label for="company">Company Name</label>
+                <input type="text" id="company" name="company" placeholder="Enter company name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" required>
+            </div>
+            <button type="submit" class="btn-login">Register</button>
+        </form>
+        <div class="links">
+            <p><a href="recruiter_login.html">Already have an account? Login</a></p>
+            <p><a href="../index.html" style="font-weight:bold;">← Back to Home</a></p>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script to show error message -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    if (form) {
+        form.addEventListener("submit", function (e) {
+            const password = document.getElementById("password")?.value;
+            const confirm = document.getElementById("confirm_password")?.value;
+
+            if (password && confirm && password !== confirm) {
+                e.preventDefault();
+                alert("Passwords do not match!");
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

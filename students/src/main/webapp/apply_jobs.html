@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for Jobs | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .job-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="#" class="active">Jobs</a>
+    </nav>
+    <a href="login/student_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+    <h2>Available Jobs</h2>
+    <div id="jobContainer"></div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<script>
+    const container = document.getElementById("jobContainer");
+
+    // Fetch approved jobs from server
+    fetch('/students/student/jobs')
+        .then(res => res.json())
+        .then(jobs => {
+            if (jobs.length === 0) {
+                container.innerHTML = "<p>No jobs available yet.</p>";
+                return;
+            }
+
+            jobs.forEach(job => {
+                const card = document.createElement("div");
+                card.className = "job-card";
+                card.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <p><strong>Company:</strong> ${job.company_name}</p>
+                    <p><strong>Description:</strong> ${job.description.substring(0, 100)}...</p>
+                    <p><strong>Location:</strong> ${job.location}</p>
+                    <a href="/students/student/apply-job?job_id=${job.job_id}">Apply Now</a>
+                `;
+                container.appendChild(card);
+            });
+        });
+</script>
+
+</body>
+</html>

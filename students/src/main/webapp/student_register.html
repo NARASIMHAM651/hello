@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Register | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #222;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #00bfff;
+        }
+
+        main {
+            min-height: 90vh;
+            background: url('images/student-login.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            width: 380px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 10px;
+            background-color: #00bfff;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            background-color: #0099cc;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #00bfff;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #111;
+            color: #fff;
+        }
+
+        footer a {
+            color: #00bfff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">ZIDIO<span>Connect</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#features">Features</a>
+            <a href="index.html#roles">Roles</a>
+            <a href="#">Register</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="login-container">
+            <h2>Student Registration</h2>
+            <form action="StudentrgisterServlet" method="POST">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter password" required>
+                </div>
+                <button type="submit" class="btn-login">Register</button>
+            </form>
+            <div class="links">
+                <p><a href="student_login.html">Already have an account? Login</a></p>
+                <p><a href="index.html" style="font-weight:bold;">← Back to Home</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+    </footer>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(e) {
+            const password = document.getElementById("password").value;
+            const confirm = document.getElementById("confirm_password").value;
+
+            if (password !== confirm) {
+                e.preventDefault();
+                alert("Passwords do not match!");
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.color = 'red';
+            errorDiv.style.textAlign = 'center';
+            errorDiv.style.marginBottom = '20px';
+            errorDiv.innerText = decodeURIComponent(error.replace(/\+/g, ' '));
+            document.querySelector('.links').before(errorDiv);
+        }
+    </script>
+</body>
+</html>

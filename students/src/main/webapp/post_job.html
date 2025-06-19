@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post New Job | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 40px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="#" class="active">Post Job</a>
+    </nav>
+    <a href="../recruiter_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main>
+    <div class="form-container">
+        <h2>Post New Job / Internship</h2>
+
+        <form id="jobForm" method="POST" action="/students/jobpost/JobpostServlet">
+            <input type="text" name="title" placeholder="Job Title" required><br>
+            <textarea name="description" rows="5" placeholder="Job Description" required></textarea><br>
+            <input type="text" name="location" placeholder="Location" required><br>
+            <input type="number" name="stipend" placeholder="Stipend (if any)"><br>
+            <input type="date" name="deadline" required><br>
+            <button type="submit">Post Job</button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<script>
+    document.getElementById("jobForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch("/students/jobpost/JobpostServlet", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) throw new Error("Server responded with error");
+
+            const result = await response.json();
+
+            const messageDiv = document.getElementById("message");
+            messageDiv.innerHTML = `<div class="${result.status === 'success' ? 'success' : 'error'}">${result.message}</div>`;
+
+            if (result.redirect) {
+                setTimeout(() => {
+                    window.location.href = result.redirect;
+                }, 1500);
+            }
+
+        } catch (err) {
+            document.getElementById("message").innerHTML = `<div class="error">❌ ${err.message}</div>`;
+        }
+    });
+</script>
+
+</body>
+</html>

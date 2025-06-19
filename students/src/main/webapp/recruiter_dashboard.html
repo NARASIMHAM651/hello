@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recruiter Dashboard | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/student.css">
+
+    <style>
+        /* Main Dashboard Styles */
+        .dashboard {
+            position: relative;
+            min-height: 100vh;
+            padding: 40px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .card-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .welcome-message {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .logout-link {
+            color: red;
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        /* Application List */
+        .application-card {
+            margin-top: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .application-card h3 {
+            margin-top: 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Job Cards */
+        #jobList {
+            margin-top: 20px;
+        }
+
+        #jobList div {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        /* Background Video */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="post_job.html">Post Job</a>
+        <a href="view_applications.html">View Applications</a>
+    </nav>
+    <a href="recruiter_login.html" class="logout-link">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+    <!-- Background Video -->
+    <video autoplay muted loop class="video-bg">
+        <source src="videos/recruiterdash.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <h2 class="welcome-message">Welcome, <span id="recruiter-name">[Company]</span></h2>
+
+    <!-- Recruiter Actions -->
+    <div class="card-grid">
+        <div class="card">
+            <h3>Post New Job</h3>
+            <p>Create internship or job listing with requirements and deadlines.</p>
+            <a href="post_job.html" class="btn primary">Post a Job</a>
+        </div>
+
+        <div class="card">
+            <h3>Applications</h3>
+            <p>Review resumes and shortlist candidates.</p>
+            <a href="view_applications.html" class="btn secondary">View Applications</a>
+        </div>
+
+        <div class="card">
+            <h3>Shortlisted Students</h3>
+            <p>Send offers or notifications to selected applicants.</p>
+            <a href="#" class="btn primary">View Shortlisted</a>
+        </div>
+
+        <div class="card">
+            <h3>Analytics & Reports</h3>
+            <p>See how many students applied, demographics, etc.</p>
+            <a href="#" class="btn secondary">View Analytics</a>
+        </div>
+    </div>
+
+    <!-- Section: Students Who Applied -->
+    <section class="application-card">
+        <div class="card">
+            <h3>Students Who Applied</h3>
+            <ul id="applicationsList"></ul>
+        </div>
+
+        <!-- Section: Posted Jobs -->
+        <div class="card" id="jobsList">
+            <h3>Your Posted Jobs</h3>
+            <div id="jobList">
+                <!-- Jobs will be inserted here -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script: Load Applications and Jobs -->
+<script>
+//In recruiter_dashboard.html
+fetch('/students/recruiter/jobs?email=' + encodeURIComponent(recruiterEmail))
+    .then(res => res.json())
+    .then(jobs => {
+        const jobListContainer = document.getElementById("jobList");
+        jobListContainer.innerHTML = ""; // Clear existing content
+
+        if (jobs.length === 0) {
+            jobListContainer.innerHTML = "<p>No jobs posted yet.</p>";
+            return;
+        }
+
+        jobs.forEach(job => {
+            const div = document.createElement("div");
+            div.style.border = "1px solid #ccc";
+            div.style.padding = "15px";
+            div.style.marginBottom = "10px";
+
+            div.innerHTML = `
+                <strong>${job.title}</strong><br>
+                ${job.description}<br>
+                <em>Status:</em> <strong>${job.status}</strong><br>
+                <small>Posted on: ${new Date(job.posted_at).toLocaleDateString()}</small>
+            `;
+            jobListContainer.appendChild(div);
+        });
+    });
+</script>
+
+</body>
+</html>

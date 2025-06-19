@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/student.css">
+    <style>
+        main.dashboard {
+            position: relative;
+            padding: 60px 20px;
+            text-align: center;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background Video */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Dark Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: -1;
+        }
+
+        .card-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2, h3, p {
+            color: #fff;
+        }
+
+        .card h3, .card p {
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 16px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Jobs</a>
+        <a href="#">Learning</a>
+    </nav>
+    <a href="student_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+    <!-- Background Video -->
+    <video autoplay muted loop class="video-bg">
+        <source src="videos/studentdash.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <h2>Welcome, <span id="student-name">[Student Name]</span></h2>
+
+    <div class="card-grid">
+        <!-- Resume Upload -->
+        <div class="card">
+            <h3>Resume Upload</h3>
+            <p>Upload or update your resume here.</p>
+            <a href="resume_upload.html" class="btn">Upload Resume</a>
+        </div>
+
+        <!-- Apply Jobs -->
+        <div class="card">
+            <h3>Apply for Jobs</h3>
+            <p>Search and apply to active internships and jobs.</p>
+            <a href="apply_jobs.html" class="btn">Browse Jobs</a>
+        </div>
+
+        <!-- Application Status -->
+        <div class="card">
+            <h3>Application Tracker</h3>
+            <p>View the status of your submitted applications.</p>
+            <a href="application_status.html" class="btn">Check Status</a>
+        </div>
+
+        <!-- Learning Resources -->
+        <div class="card">
+            <h3>Learning Resources</h3>
+            <p>Access curated courses, skill tasks, and hackathons.</p>
+            <a href="learning_resources.html" class="btn">Start Learning</a>
+        </div>
+
+        <!-- AI Assistant Chatbot -->
+        <div class="card">
+            <h3>AI Assistant</h3>
+            <p>Need help? Ask our AI assistant anything about jobs or learning.</p>
+            <a href="chatbot.html" class="btn">Open Chatbot</a>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script to display student name -->
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    document.getElementById("student-name").innerText = name || 'Student';
+
+    // Fetch resume path from server
+    fetch(`/students/resume-path?name=${name}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.resume_path) {
+                document.getElementById("resumeLink").href = data.resume_path;
+                document.getElementById("resumeLink").innerText = "Download My Resume";
+            }
+        });
+ // In student_dashboard.html
+    fetch('/students/student/approved-jobs')
+        .then(res => res.json())
+        .then(jobs => {
+            const container = document.getElementById("jobContainer");
+
+            if (jobs.length === 0) {
+                container.innerHTML = "<p>No jobs available yet.</p>";
+                return;
+            }
+
+            jobs.forEach(job => {
+                const card = document.createElement("div");
+                card.className = "job-card";
+                card.innerHTML = `
+                    <h3>${job.title}</h3>
+                    <p><strong>Company:</strong> ${job.company_name}</p>
+                    <p><strong>Description:</strong> ${job.description.substring(0, 150)}...</p>
+                    <p><strong>Location:</strong> ${job.location}</p>
+                    <button class="btn" onclick="applyToJob(${job.job_id})">Apply Now</button>
+                `;
+                container.appendChild(card);
+            });
+        });
+</script>
+
+</body>
+</html>

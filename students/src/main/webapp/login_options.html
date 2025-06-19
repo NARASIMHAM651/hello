@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Options | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/student.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            color: #fff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: #000000cc;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #00bfff;
+        }
+
+        nav a {
+            margin-left: 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .video-main {
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 1;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        .video-main::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        .overlay-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 60px 20px;
+        }
+
+        .card-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .role-card {
+    background: linear-gradient(135deg, #00c6ff, #0072ff); /* Vibrant blue gradient */
+    border-radius: 15px;
+    padding: 25px 20px;
+    width: 280px;
+    text-align: center;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.role-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+
+        .role-card img {
+            width: 80px;
+            margin-bottom: 15px;
+        }
+
+        .role-card h3 {
+            margin-bottom: 10px;
+            color: burlywood;
+        }
+
+        .btn-login {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #00bfff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000000dd;
+            color: #fff;
+        }
+
+        footer a {
+            color: #00bfff;
+        }
+        h2{
+          color:darkgoldenrod;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">ZIDIO<span>Connect</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#features">Features</a>
+            <a href="index.html#roles">Roles</a>
+            <a href="#">Login</a>
+        </nav>
+    </header>
+
+    <!-- Main Content with Background Video -->
+    <main class="video-main">
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="videos/logins.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Overlay Content -->
+        <div class="overlay-content">
+            <h2 style="text-align:center; font-size:2rem; margin-bottom:40px;">Choose Your Login Type</h2>
+            <div class="card-grid">
+                <!-- Student Card -->
+                <div class="role-card">
+                    <img src="images/student.png" alt="Student">
+                    <h3>Student Login</h3>
+                    <p>Login to apply for internships, upload resume, and track applications.</p>
+                    <a href="student_login.html" class="btn-login">Login as Student</a>
+                </div>
+
+                <!-- Recruiter Card -->
+                <div class="role-card">
+                    <img src="images/recruiter.png" alt="Recruiter">
+                    <h3>Recruiter Login</h3>
+                    <p>Login to post jobs, view applications, and shortlist candidates.</p>
+                    <a href="recruiter_login.html" class="btn-login">Login as Recruiter</a>
+                </div>
+
+                <!-- Admin Card -->
+                <div class="role-card">
+                    <img src="images/admin.png" alt="Admin">
+                    <h3>Admin Login</h3>
+                    <p>Login to manage users, content, and generate reports.</p>
+                    <a href="admin_login.html" class="btn-login">Login as Admin</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+    </footer>
+
+</body>
+</html>

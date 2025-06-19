@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Resume | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/student.css">
+
+    <!-- Optional: PDF Preview -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.9.157/pdf.min.js"></script> 
+
+    <style>
+        .upload-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom:18.5%;
+        }
+
+        .current-resume {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .current-resume a {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .resume-preview {
+            margin-top: 30px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="studentdashboard.html">Home</a>
+        <a href="#">Profile</a>
+        <a href="apply_jobs.html">Jobs</a>
+        <a href="#">Learning</a>
+    </nav>
+    <a href="student_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main class="dashboard">
+    <div class="upload-container">
+        <h2>Upload Your Resume</h2>
+
+        <form class="upload-form" id="resumeForm" enctype="multipart/form-data" method="POST" action="student-resume-upload">
+            <input type="file" name="resume" id="resumeInput" accept=".pdf,.doc,.docx" required>
+            <button type="submit" class="upload-button">Upload Resume</button>
+        </form>
+
+        <div class="current-resume" id="currentResume">
+            Current Resume: 
+            <a id="resumeLink" href="#" target="_blank">Not uploaded yet</a>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div id="previewContainer" class="resume-preview" style="display:none;">
+            <p>Resume Preview</p>
+            <iframe id="resumePreview" src="" width="100%" height="500px" frameborder="0"></iframe>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<!-- Script to show current resume path -->
+<script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const studentName = decodeURIComponent(urlParams.get('name') || 'Student');
+
+// Load current resume path from server
+fetch('/zidio_connect/resume-path?name=' + encodeURIComponent(studentName))
+    .then(res => res.json())
+    .then(data => {
+        const resumeLink = document.getElementById("resumeLink");
+        if (data.resume_path) {
+            resumeLink.href = data.resume_path;
+            resumeLink.innerText = "Download My Resume";
+            if (data.resume_path.endsWith('.pdf')) {
+                document.getElementById("previewContainer").style.display = 'block';
+                document.getElementById("resumePreview").src = data.resume_path;
+            }
+        } else {
+            resumeLink.innerText = "No resume uploaded";
+        }
+    });
+
+// Handle form submission with AJAX
+document.getElementById("resumeForm").addEventListener("submit", async function(e) {
+    e.preventDefault(); // Prevent full page reload
+
+    const fileInput = document.getElementById("resumeInput");
+    const file = fileInput.files[0];
+    const messageDiv = document.getElementById("message");
+
+    // Validate file type
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!file) {
+        messageDiv.innerHTML = '<div class="error-message">Please select a file to upload.</div>';
+        return;
+    }
+
+    if (!validTypes.includes(file.type)) {
+        messageDiv.innerHTML = '<div class="error-message">Only PDF/DOC files are allowed.</div>';
+        return;
+    }
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('/students/student-resume-upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Server responded with error');
+        }
+
+        const result = await response.json();
+
+        // Show success message
+        messageDiv.innerHTML = '<div class="success-message">✅ Resume uploaded successfully!</div>';
+
+        // Update resume link
+        const resumeLink = document.getElementById("resumeLink");
+        resumeLink.href = result.resume_path;
+        resumeLink.innerText = "Download My Resume";
+
+        // Show preview if PDF
+        if (result.resume_path.endsWith(".pdf")) {
+            document.getElementById("previewContainer").style.display = 'block';
+            document.getElementById("resumePreview").src = result.resume_path;
+        }
+
+    } catch (error) {
+        messageDiv.innerHTML = '<div class="error-message">❌ Upload failed. Please try again.</div>';
+        console.error("Upload error:", error);
+    }
+});
+
+// Auto-preview if it's a PDF
+document.getElementById("resumeInput").addEventListener("change", function() {
+    const file = this.files[0];
+    const preview = document.getElementById("resumePreview");
+    const container = document.getElementById("previewContainer");
+
+    if (file && file.type === 'application/pdf') {
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+            const blob = new Blob([fileReader.result], {type: 'application/pdf'});
+            const url = URL.createObjectURL(blob);
+            preview.src = url;
+            container.style.display = 'block';
+        };
+        file.readAsArrayBuffer(file);
+    } else if (file) {
+        container.style.display = 'none';
+    }
+});
+
+</script>
+
+</body>
+</html>

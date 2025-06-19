@@ -1,0 +1,98 @@
+/* General Reset */
+
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+ .form-group input[type="text"]{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #0056b3;
+}
+
+.links {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.links a {
+    color: #007BFF;
+    display: inline-block;
+    margin: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.links a:hover {
+    color: #0056b3;
+}
+/* Center Login Form Vertically */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full height */
+}
+
+main {
+    flex: 1; /* Pushes content to the center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    background-color: #ffe6e6;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

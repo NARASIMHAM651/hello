@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Applications | ZIDIO Connect</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .shortlist-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header class="navbar">
+    <div class="logo">ZIDIO<span>Connect</span></div>
+    <nav>
+        <a href="../../index.html">Home</a>
+        <a href="#">Dashboard</a>
+        <a href="post_job.html">Post Job</a>
+        <a href="#" class="active">View Applications</a>
+    </nav>
+    <a href="recruiter_login.html" style="color:white; margin-left:auto;">Logout</a>
+</header>
+
+<!-- Main Content -->
+<main>
+    <h2>Applications for Your Jobs</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="applicationTable">
+            <!-- Applications will be inserted here -->
+        </tbody>
+    </table>
+</main>
+
+<!-- Footer -->
+<footer id="footer">
+    <p>&copy; 2025 ZIDIO Connect. All rights reserved.</p>
+    <p>Contact us: <a href="mailto:hr@zidio.in">hr@zidio.in</a></p>
+</footer>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const recruiterEmail = decodeURIComponent(urlParams.get('name'));
+
+    // Load all applications for this recruiter's jobs
+    function loadApplications() {
+        fetch('/students/recruiter/applications?email=' + encodeURIComponent(recruiterEmail))
+            .then(res => res.json())
+            .then(applications => {
+                const tbody = document.getElementById("applicationTable");
+                tbody.innerHTML = ""; // Clear existing content
+
+                if (applications.length === 0) {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = "<td colspan='3'>No applications found</td>";
+                    tbody.appendChild(tr);
+                    return;
+                }
+
+                applications.forEach(app => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${app.student_name}</td>
+                        <td>${app.application_status}</td>
+                        <td>
+                            <button class="shortlist-btn" onclick="updateStatus(${app.application_id}, 'Shortlisted')">Shortlist</button>
+                            <button class="reject-btn" onclick="updateStatus(${app.application_id}, 'Rejected')">Reject</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+    }
+
+    function updateStatus(applicationId, status) {
+        fetch(`/students/recruiter/update-application-status?id=${applicationId}&status=${status}`)
+            .then(res => res.json())
+            .then(data => alert("✅ Status updated to " + status));
+    }
+
+    window.onload = loadApplications;
+</script>
